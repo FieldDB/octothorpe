@@ -56,5 +56,3 @@ apache/nginx
 html, js
 maybe something server-side
 clients access with browser
-
-24-hour tech support hotline: 567 259 9756
