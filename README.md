@@ -1,4 +1,6 @@
 octothorpe
 ==========
+Just a random name, we can change it if we get better ideas.
 
-CouchDB-powered wiki thing (CSE 585 project)
+https://github.com/benoitc/erica looks like the way to deploy.  I'll experiment with this.
+See http://couchapp.org/page/index for more.
