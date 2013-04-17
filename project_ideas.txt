@@ -1,0 +1,60 @@
+document sharing
+
+granular access - owner of document can restrict writing
+-- even visibility & reading
+
+users & auth*
+probably do this in couch itself
+step 2; first do global r/w
+
+list of all docs
+edit documents
+create documents
+
+stretch stuff: operational transform
+fork documents
+old versions
+anycasted global multi-master network for latency (not going to happen)
+hot spare
+
+home: list documents, link to create document
+
+create document: title, content
+
+view document: link to edit
+live update checkbox
+
+edit document: title, content, delete
+can you edit title? sure, why not
+note: title doesn't uniquely identify
+have some (hidden-ish) id field
+
+what do we do on new version?
+
+while editing: poll for changes and commit mine, every n seconds
+if ours was out of date, discard and refresh
+(future: use OT)
+
+updates: polling, long polling, websockets
+
+show editors/viewers
+
+lock per-line, merge with basic diff algorithm?
+exclusive lock?
+
+what sort of server stack?
+client-side js?
+php?
+node?
+ruby/python?
+
+
+architecture:
+linux server
+couchdb
+apache/nginx
+html, js
+maybe something server-side
+clients access with browser
+
+24-hour tech support hotline: 567 259 9756

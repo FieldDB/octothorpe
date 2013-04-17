@@ -1,0 +1,7 @@
+We plan to produce a collaborative multi-user document storage and editing system.  Real-time collaboration is a huge innovation, an immense force multiplier for your teams.  With this system's blazing speed and minimal overhead, you will run circles around your competitors who are still sharing documents with email.  
+
+It will be open-source and easy to modify and extend for your unique needs.  Leveraging a high-performance web-scale NoSQL datastore will allow it to effortlessly scale to millions of users.
+
+The system will be built on industry-standard tools, including jQuery, HTML5, and CouchDB.  Tools have been chosen for maximum developer productivity, ensuring swift completion of this project.  A fully open-source technology stack allows us to synergize with the strengths of the community, at no cost to ourselves: a big win.
+
+A revenue model has not yet been established, but we will deal with that once we have millions of users.

@@ -1,0 +1,7 @@
+Our application will be hosted on a Linux server.  This will run a CouchDB database and an Apache HTTP server.  Apache will serve static HTML and Javascript to clients, which perform the majority of the work.
+
+Client-side Javascript in the user's browser will communicate with the CouchDB server, reading and writing as changes are made.  The dynamic user interface will be implemented with jQuery and Bootstrap.
+
+<diagram, lots of arrows>
+
+

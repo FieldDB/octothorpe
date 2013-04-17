@@ -1,0 +1,84 @@
+The basic system 
+================
+
+We interact with the system via a client-side Javascript application running in
+a web browser.  This application communicates directly with the CouchDB
+database to read and write documents.
+
+Documents are very simple, consisting of a title and contents.
+
+Pages
+-----
+Home: This page lists all documents by title.
+Links to view each document, and create a new one.
+
+View document: Shows the text of a document.
+Links to edit, delete, home.
+
+Edit document: Textarea for editing a document.
+Links to view, home.
+Save/submit button.
+
+Delete document: Ask for confirmation, then delete.
+
+New document: Ask to enter title.  Once provided, redirects to edit screen for
+that document.
+
+
+Conflicts
+---------
+If a document has been modified by another user since we started, blow away our
+changes and update to the others.  This is the simplest option, and clearly not
+optimal.
+
+More advanced options: perform a diff of the changesets, or if that fails show
+both versions to the user and ask them to fix it.
+
+
+Stage 2
+=======
+Changes are automatically sent to the database as editing progresses.  This is
+done with repeated polling.  Any changes made by different users are pulled
+back, keeping every client up to date.
+
+User names.
+Credit users for creation, last edit.
+List active users.
+Authentication and authorization.  Documents can be owned by users, and access
+control allows owners to permit reading and writing for chosen users, or make
+them publicly readable.
+
+Home page only lists accessible documents.
+
+Users are implemented as CouchDB users.  This may be a bad idea.
+
+An operational transform library is integrated, and used for resolving
+conflicting edits nicely.  This may be used with a line-level locking
+mechanism, if necessary.
+
+Auth* Pages
+-----------
+Create user: username, password.
+(alternatively, use mozilla persona?)
+
+Login: username & password, tests credentials and sets cookie.
+
+Edit document: If owner, display and edit access controls.
+
+
+Stage n
+=======
+Globally distributed database cluster with multi-master replication.
+Anycasted for minimal latency.
+
+Rich text documents and editor.
+Multimedia insertion, using CouchDB attachments.
+Multiple document types.
+Syntax highlighting.
+Free ponies.
+
+Offline-capable mobile client (runs a copy of CouchDB locally, syncs when
+possible)
+
+CouchDB cluster with robust conflict resolution.
+OT should handle some of this, but it could fail.
