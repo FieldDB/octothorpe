@@ -1,0 +1,13 @@
+{
+    "env": {
+        "local": {
+            "db": "http://admin:password@localhost:5984/octothorpe"
+        },
+        "iris": {
+            "db": "https://admin:password@croikle.iriscouch.com:6984/octothorpe"
+        },
+        "default": {
+            "db": "https://admin:password@croikle.iriscouch.com:6984/octothorpe"
+        }
+    }
+}
