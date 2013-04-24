@@ -19,7 +19,6 @@
           or a grocery list, or a chat room.</p>
     </div>
   </body>
-  <script src="/_utils/script/sha1.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.js"></script>
   <script src="/_utils/script/jquery.couch.js"></script>
@@ -38,13 +37,17 @@
         </div>
       </div>
       <form id="create-message">
-        <label>New message from {{nickname}}: <input type="text" name="message" size=60 value=""></label>
+        <label>Title: <input type="text" name="title" size=60 value=""></label>
+        <br/>
+        <textarea name="contents"></textarea>
+        <br/>
+        <input type="submit" value="Create">
       </form>
       <div style="clear:left;"></div>
   </script>
 
-  <script id="recent-messages" type="text/x-mustache" charset="utf-8">
-        <h3>Recent Messages</h3>
+  <script id="documents" type="text/x-mustache" charset="utf-8">
+        <h3>Documents</h3>
         <ul id="items">
           {{#items}}
             <li>
@@ -54,13 +57,12 @@
                   {{nickname}}
                 </div>
               </div>
-              <p>{{message}}</p>
+              <p>{{title}}</p>
+              <p>{{contents}}</p>
               <div style="clear:left;"></div>
             </li>
           {{/items}}
         </ul>
-        <p><em>Protip:</em> If you setup continuous replication between this database and a remote one, this list will reflect remote changes in near real-time.</p>
-        <p>This would be a good place to add pagination.</p>
   </script>
   <script src="script/app.js"></script>
 

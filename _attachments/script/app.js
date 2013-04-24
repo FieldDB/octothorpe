@@ -10,7 +10,7 @@ $(function() {
             update_seq : true,
             success : function(data) {
                 setupChanges(data.update_seq);
-                var them = $.mustache($("#recent-messages").html(), {
+                var them = $.mustache($("#documents").html(), {
                     items : data.rows.map(function(r) {return r.value;})
                 });
                 $("#content").html(them);
