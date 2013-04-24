@@ -29,7 +29,6 @@ $(function() {
     };
 
     function updateView() {
-        console.log(document.location.hash);
         if (document.location.hash === "") {
             drawItems();
         }
