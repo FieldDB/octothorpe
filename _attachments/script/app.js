@@ -3,12 +3,14 @@ $(function() {
     var path = unescape(document.location.pathname).split('/'),
         design = path[3],
         db = $.couch.db(path[1]);
+    var doc = null;
     function drawItems() {
         db.view(design + "/recent-items", {
             descending : "true",
             limit : 50,
             update_seq : true,
             success : function(data) {
+                doc = null; // clear the active doc
                 setupChanges(data.update_seq,"");
                 var them = $.mustache($("#documents").html(), {
                     items : data.rows.map(function(r) {return r.value;})
@@ -18,11 +20,13 @@ $(function() {
         });
     };
 
-    var doc = null;
     var timer;
     function viewOne(id) {
         db.openDoc(id, {
             success : function(data) {
+                // don't redraw if we already have this revision
+                // This keeps the changes pushed while editing from knocking us out
+                // of the textarea, since the save updated our revision first.
                 if (doc === null || doc._rev !== data._rev) {
                     doc = data;
                     setupChanges(data.update_seq,id);
