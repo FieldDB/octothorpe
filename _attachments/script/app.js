@@ -33,7 +33,7 @@ $(function() {
                     var them = $.mustache($("#view").html(), data);
                     $("#content").html(them);
                     // todo: try/catch
-                    $("#content").keypress(resetTimer);
+                    $("#content").keydown(resetTimer);
                 }
             }
         });
