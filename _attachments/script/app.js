@@ -38,12 +38,37 @@ $(function() {
     function resetTimer() {
         window.clearTimeout(timer);
         timer = window.setTimeout(submit, 1000);
-    }
+    };
 
     function submit() {
-        doc.contents = $("#contents")[0].textContent;
-        //more jquery-like way to do this?
+        doc.contents = getLines(document.getElementById("contents"));
         db.saveDoc(doc);
+    };
+
+    // after Tim Dowan, with changes: http://stackoverflow.com/questions/298750
+    function getLines(node) {
+        var lines = [];
+
+        var br = false;
+        function sub(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                br = false;
+                lines.push(node.data);
+            }
+            else if (node.tagName === "BR") {
+                if (br) { lines.push("") }// look for consecutive BRs
+                br = true;
+            }
+            else {
+                br = true;
+                for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+                    sub(node.childNodes[i]);
+                }
+            }
+        }
+
+        sub(node);
+        return lines;
     }
 
     function updateView() {

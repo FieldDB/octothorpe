@@ -54,7 +54,7 @@
         </div>
       </div>
       <h3>{{title}}</h3>
-      <p id="contents" contentEditable=true>{{contents}}</p>
+      <p id="contents" contentEditable=true>{{#contents}}{{.}}<br/>{{/contents}}</p>
   </script>
 
   <script id="documents" type="text/x-mustache" charset="utf-8">
