@@ -18,16 +18,25 @@ $(function() {
         });
     };
 
+    var doc = null;
     function viewOne(id) {
         db.openDoc(id, {
             success : function(data) {
+                doc = data;
                 setupChanges(data.update_seq,id);
                 var them = $.mustache($("#view").html(), data);
                 $("#content").html(them);
                 // todo: try/catch
+                $("#button").click(submit);
             }
         });
     };
+
+    function submit() {
+        doc.contents = $("#contents")[0].textContent;
+        //more jquery-like way to do this?
+        db.saveDoc(doc);
+    }
 
     function updateView() {
         if (document.location.hash === "") {
