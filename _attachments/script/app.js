@@ -17,7 +17,32 @@ $(function() {
             }
         });
     };
-    drawItems();
+
+    function viewOne(id) {
+        db.openDoc(id, {
+            success : function(data) {
+                var them = $.mustache($("#view").html(), data);
+                $("#content").html(them);
+                // todo: try/catch
+            }
+        });
+    };
+
+    function updateView() {
+        console.log(document.location.hash);
+        if (document.location.hash === "") {
+            drawItems();
+        }
+        else {
+            viewOne(document.location.hash.slice(1));
+            // slice to remove the #
+        }
+    };
+
+    updateView();
+
+    window.onhashchange = updateView;
+
     var changesRunning = false;
     function setupChanges(since) {
         if (!changesRunning) {
@@ -25,7 +50,7 @@ $(function() {
             changesRunning = true;
             changeHandler.onChange(drawItems);
         }
-    }
+    };
     $.couchProfile.templates.profileReady = $("#new-message").html();
     $("#account").couchLogin({
         loggedIn : function(r) {

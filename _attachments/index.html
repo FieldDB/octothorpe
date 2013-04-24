@@ -46,6 +46,17 @@
       <div style="clear:left;"></div>
   </script>
 
+  <script id="view" type="text/x-mustache" charset="utf-8">
+      <div class="avatar">
+        {{#gravatar_url}}<img src="{{gravatar_url}}" alt="{{name}}"/>{{/gravatar_url}}
+        <div class="name">
+          {{nickname}}
+        </div>
+      </div>
+      <h3>{{title}}</h3>
+      <p>{{contents}}</p>
+  </script>
+
   <script id="documents" type="text/x-mustache" charset="utf-8">
         <h3>Documents</h3>
         <ul id="items">
@@ -57,8 +68,7 @@
                   {{nickname}}
                 </div>
               </div>
-              <p>{{title}}</p>
-              <p>{{contents}}</p>
+              <p><a href="#{{id}}">{{title}}</a></p>
               <div style="clear:left;"></div>
             </li>
           {{/items}}
