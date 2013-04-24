@@ -9,7 +9,7 @@ $(function() {
             limit : 50,
             update_seq : true,
             success : function(data) {
-                setupChanges(data.update_seq);
+                setupChanges(data.update_seq,"");
                 var them = $.mustache($("#documents").html(), {
                     items : data.rows.map(function(r) {return r.value;})
                 });
@@ -21,6 +21,7 @@ $(function() {
     function viewOne(id) {
         db.openDoc(id, {
             success : function(data) {
+                setupChanges(data.update_seq,id);
                 var them = $.mustache($("#view").html(), data);
                 $("#content").html(them);
                 // todo: try/catch
@@ -42,12 +43,17 @@ $(function() {
 
     window.onhashchange = updateView;
 
-    var changesRunning = false;
-    function setupChanges(since) {
-        if (!changesRunning) {
-            var changeHandler = db.changes(since);
-            changesRunning = true;
-            changeHandler.onChange(drawItems);
+    var changesFeed = false;
+    function setupChanges(since,filterID) {
+        if (changesFeed !== filterID) {
+            var opts = {};
+            if (filterID !== "") {
+                opts.filter = design + "/doc_id";
+                opts.id = filterID;
+            }
+            var changeHandler = db.changes(since,opts);
+            changesFeed = filterID;
+            changeHandler.onChange(updateView);
         }
     };
     $.couchProfile.templates.profileReady = $("#new-message").html();
