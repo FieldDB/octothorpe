@@ -98,19 +98,22 @@ $(function() {
             changeHandler.onChange(updateView);
         }
     };
-    $.couchProfile.templates.profileReady = $("#new-message").html();
+    $.couchProfile.templates.profileReady = $("#new-doc").html();
     $("#account").couchLogin({
         loggedIn : function(r) {
             $("#profile").couchProfile(r, {
                 profileReady : function(profile) {
-                    $("#create-message").couchForm({
+                    $("#create-doc").couchForm({
                         beforeSave : function(doc) {
+                            doc.contents = ["Click here to edit this document"];
                             doc.created_at = new Date();
                             doc.profile = profile;                         
                             return doc;
+                        },
+                        success : function(doc) {
+                            document.location.hash = doc._id;
                         }
                     });
-                    $("#create-message").find("input").focus();
                 }
             });
         },
