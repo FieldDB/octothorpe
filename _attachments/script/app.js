@@ -19,18 +19,26 @@ $(function() {
     };
 
     var doc = null;
+    var timer;
     function viewOne(id) {
         db.openDoc(id, {
             success : function(data) {
-                doc = data;
-                setupChanges(data.update_seq,id);
-                var them = $.mustache($("#view").html(), data);
-                $("#content").html(them);
-                // todo: try/catch
-                $("#button").click(submit);
+                if (doc === null || doc._rev !== data._rev) {
+                    doc = data;
+                    setupChanges(data.update_seq,id);
+                    var them = $.mustache($("#view").html(), data);
+                    $("#content").html(them);
+                    // todo: try/catch
+                    $("#content").keypress(resetTimer);
+                }
             }
         });
     };
+
+    function resetTimer() {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(submit, 1000);
+    }
 
     function submit() {
         doc.contents = $("#contents")[0].textContent;
