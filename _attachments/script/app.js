@@ -90,6 +90,7 @@ $(function() {
     window.onhashchange = updateView;
 
     var changesFeed = false;
+    var lastChangeHandler;
     function setupChanges(since,filterID) {
         if (changesFeed !== filterID) {
             var opts = {};
@@ -100,9 +101,13 @@ $(function() {
             else {
                 opts.filter = design + "/new";
             }
-            var changeHandler = db.changes(since,opts);
             changesFeed = filterID;
+            var changeHandler = db.changes(since,opts);
+            if (lastChangeHandler) {
+                lastChangeHandler.stop();
+            }
             changeHandler.onChange(updateView);
+            lastChangeHandler = changeHandler;
         }
     };
     $.couchProfile.templates.profileReady = $("#new-doc").html();
