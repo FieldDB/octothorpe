@@ -93,6 +93,9 @@ $(function() {
                 opts.filter = design + "/doc_id";
                 opts.id = filterID;
             }
+            else {
+                opts.filter = design + "/new";
+            }
             var changeHandler = db.changes(since,opts);
             changesFeed = filterID;
             changeHandler.onChange(updateView);
