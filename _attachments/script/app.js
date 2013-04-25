@@ -1,3 +1,4 @@
+// Scaffold:
 // Apache 2.0 J Chris Anderson 2011
 $(function() {   
     var path = unescape(document.location.pathname).split('/'),
@@ -27,13 +28,45 @@ $(function() {
                 // don't redraw if we already have this revision
                 // This keeps the changes pushed while editing from knocking us out
                 // of the textarea, since the save updated our revision first.
-                if (doc === null || doc._rev !== data._rev) {
+                if (doc === null || doc._id !== id) {
                     doc = data;
                     setupChanges(data.update_seq,id);
                     var them = $.mustache($("#view").html(), data);
                     $("#content").html(them);
                     // todo: try/catch
                     $("#content").keydown(resetTimer);
+                }
+                else if (doc._rev !== data._rev) { // external change to current doc
+                    var s = window.getSelection();
+                    var doSelection = s.rangeCount > 0; // && selection is in "contents"
+                    if (doSelection) {
+                        var mark = document.createTextNode("\xff"); // some unlikely character
+                        s.getRangeAt(0).insertNode(mark);
+                    }
+
+                    var original = doc.contents;
+                    var theirs = data.contents;
+                    var ours = flatten(document.getElementById("contents"));
+                    var theirChange = changesets.text.constructChangeset(original, theirs);
+                    var ourChange = changesets.text.constructChangeset(original, ours);
+                    var transformed = theirChange.transformAgainst(ourChange);
+                    var result = transformed.apply(ours);
+                    if (doSelection) {
+                        result = result.split("\xff").join("<span id=mark></span>");
+                    }
+
+                    document.getElementById("contents").innerHTML = result;
+
+                    if (doSelection) {
+                        // replace the cursor
+                        var range = document.createRange();
+                        range.selectNode(document.getElementById("mark"));
+                        s.removeAllRanges();
+                        s.addRange(range);
+                    }
+
+                    // fully transformed; update our reference doc
+                    doc = data;
                 }
             }
         });
@@ -45,26 +78,28 @@ $(function() {
     };
 
     function submit() {
-        doc.contents = getLines(document.getElementById("contents"));
+        doc.contents = flatten(document.getElementById("contents"));
         db.saveDoc(doc);
     };
 
     // after Tim Dowan, with changes: http://stackoverflow.com/questions/298750
-    function getLines(node) {
-        var lines = [];
+    function flatten(node) {
+        var text = "";
+        var div = false;
 
-        var br = false;
         function sub(node) {
             if (node.nodeType === Node.TEXT_NODE) {
-                br = false;
-                lines.push(node.data);
+                text += node.data;
             }
-            else if (node.tagName === "BR") {
-                if (br) { lines.push("") }// look for consecutive BRs
-                br = true;
+            else if (node.tagName === "BR" && !div) {
+                text += "\n";
             }
             else {
-                br = true;
+                if (node.tagName === "DIV") {
+                    div = true;
+                    text += "\n";
+                }
+
                 for (var i = 0, len = node.childNodes.length; i < len; ++i) {
                     sub(node.childNodes[i]);
                 }
@@ -72,7 +107,7 @@ $(function() {
         }
 
         sub(node);
-        return lines;
+        return text;
     }
 
     function updateView() {
