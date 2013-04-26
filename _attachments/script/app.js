@@ -6,11 +6,13 @@ $(function() {
         db = $.couch.db(path[1]);
     var doc = null;
     function drawItems() {
+        console.log("going home");
         db.view(design + "/recent-items", {
             descending : "true",
             limit : 50,
             update_seq : true,
             success : function(data) {
+                console.log("displaying home");
                 doc = null; // clear the active doc
                 setupChanges(data.update_seq,"");
                 var them = $.mustache($("#documents").html(), {
@@ -23,12 +25,14 @@ $(function() {
 
     var timer;
     function viewOne(id) {
+        console.log("going to " + id);
         db.openDoc(id, {
             success : function(data) {
                 // don't redraw if we already have this revision
                 // This keeps the changes pushed while editing from knocking us out
                 // of the textarea, since the save updated our revision first.
                 if (doc === null || doc._id !== id) {
+                    console.log("displaying new doc " + id);
                     doc = data;
                     setupChanges(data.update_seq,id);
                     var them = $.mustache($("#view").html(), data);
@@ -37,36 +41,64 @@ $(function() {
                     $("#content").keydown(resetTimer);
                 }
                 else if (doc._rev !== data._rev) { // external change to current doc
+                    console.log("transforming doc");
+                    var contents = document.getElementById("contents");
                     var s = window.getSelection();
-                    var doSelection = s.rangeCount > 0; // && selection is in "contents"
+                    var doSelection = contents.contains(s.anchorNode);
+                    // Only run selection code if there is a selection, and it's in the contents
+                    // Note: safari <6 contains is broken. we could use a workaround,
+                    // but I'm just dropping support for now.
                     if (doSelection) {
-                        var mark = document.createTextNode("\xff"); // some unlikely character
-                        s.getRangeAt(0).insertNode(mark);
+                        var range = s.getRangeAt(0);
+                        var collapsed = s.isCollapsed; // just cursor, or actual selection?
+                        console.log("transforming cursor too");
+                        var mark = document.createTextNode("\x00"); // some unlikely character
+                        range.insertNode(mark);
+                        if (!collapsed) {
+                            console.log("transforming a selection");
+                            var mark2 = document.createTextNode("\x01");
+                            var range2 = document.createRange();
+                            range2.setStart(range.endContainer, range.endOffset);
+                            // we have to be hacky since there's only insertNode
+                            range2.insertNode(mark2);
+                        }
                     }
 
                     var original = doc.contents;
                     var theirs = data.contents;
-                    var ours = flatten(document.getElementById("contents"));
+                    var ours = flatten(contents);
                     var theirChange = changesets.text.constructChangeset(original, theirs);
                     var ourChange = changesets.text.constructChangeset(original, ours);
                     var transformed = theirChange.transformAgainst(ourChange);
                     var result = transformed.apply(ours);
                     if (doSelection) {
-                        result = result.split("\xff").join("<span id=mark></span>");
+                        result = result.split("\x00").join("<span id=mark></span>");
+                        if (!collapsed) {
+                            result = result.split("\x01").join("<span id=mark2></span>");
+                        }
                     }
 
-                    document.getElementById("contents").innerHTML = result;
+                    contents.innerHTML = result;
 
                     if (doSelection) {
                         // replace the cursor
                         var range = document.createRange();
-                        range.selectNode(document.getElementById("mark"));
+                        range.setStartBefore(document.getElementById("mark"));
+                        if (!collapsed) {
+                            range.setEndBefore(document.getElementById("mark2"));
+                        }
+                        else {
+                            range.collapse(true);
+                        }
                         s.removeAllRanges();
                         s.addRange(range);
                     }
 
                     // fully transformed; update our reference doc
                     doc = data;
+                }
+                else {
+                    console.log("never mind, we have that version already");
                 }
             }
         });
