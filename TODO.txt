@@ -35,6 +35,8 @@ access group (or even each user), with filtered replication so it only
 contains the data they can read.  If we get bored we can work on this, but it
 seems like it's too complicated for now.
 
+Allow sending request for write access, if denied.
+
 Write control is easy enough, though.
 
 URL rewriting
@@ -43,3 +45,14 @@ turn "/octothorpe/_design/octothorpe/index.html" into just "/index.html"
     http://docs.couchdb.org/en/1.3.x/pretty_urls.html
 
 Styling. Make it pretty.
+
+remove sidebar
+or change - list owner, creation time, modified time
+
+search - how fancy?
+title (exact)
+title words
+full text words
+single word search, or complex queries
+
+submit, cancel ?
