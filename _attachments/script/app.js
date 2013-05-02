@@ -251,7 +251,7 @@ $(function() {
                 profileReady : function(profile) {
                     $("#create-doc").couchForm({
                         beforeSave : function(doc) {
-                            doc.contents = ["Click here to edit this document"];
+                            doc.contents = "Click here to edit this document";
                             doc.created_at = new Date();
                             doc.modified_at = doc.created_at;
                             doc.profile = profile;
