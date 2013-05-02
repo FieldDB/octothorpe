@@ -116,7 +116,7 @@ $(function() {
              if (username !== data.owner) { 
                 console.log("username: " + username + "; owner: " + data.owner);
                 them = $.mustache($("#protect_guest").html(), data);
-                $("#sidebar").html(them);
+                $("#sidebar").html(them).show();
                 if(username==null){
                 	 document.getElementById("contents").contentEditable = false;
                      document.getElementById("doc-title").contentEditable = false;
@@ -137,7 +137,7 @@ $(function() {
             else {
                 console.log("user is owner");
                 them = $.mustache($("#protect_owner").html(), data);
-                $("#sidebar").html(them);
+                $("#sidebar").html(them).show();
                 $("#protect").change(submit);
                 
             }
@@ -145,7 +145,7 @@ $(function() {
     }
     function undoSidebar()
     {
-        $("#sidebar").html(null);
+        $("#sidebar").hide();
     }
     function resetTimer() {
         window.clearTimeout(timer);
