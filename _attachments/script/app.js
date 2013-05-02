@@ -86,9 +86,13 @@ $(function() {
                     if (doSelection) {
                         // replace the cursor
                         var range = document.createRange();
-                        range.setStartBefore(document.getElementById("mark"));
+                        var m1 = document.getElementById("mark");
+                        range.setStartBefore(m1);
+                        m1.parentNode.removeChild(m1);
                         if (!collapsed) {
-                            range.setEndBefore(document.getElementById("mark2"));
+                            var m2 = document.getElementById("mark2");
+                            range.setEndBefore(m2);
+                            m2.parentNode.removeChild(m2);
                         }
                         else {
                             range.collapse(true);
