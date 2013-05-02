@@ -4,7 +4,7 @@ function (doc, req) {
     doc.actives[user] = new Date();
 
     var filterOld = function (doc) {
-        var expireTime = 10000;
+        var expireTime = 15000;
         for (key in doc) {
             if (doc.hasOwnProperty(key)) {
                 var last = new Date(doc[key]);

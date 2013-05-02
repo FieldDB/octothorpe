@@ -33,7 +33,7 @@ $(function() {
         console.log("going to " + id);
         db.openDoc(id, {
             success : function(data) {
-                intervalID = setInterval(ping, 5000, id);
+                intervalID = setInterval(ping, Math.random()*1000 + 5000, id);
                 ping(id);
                 $("#profile").hide();
                 // don't redraw if we already have this revision
