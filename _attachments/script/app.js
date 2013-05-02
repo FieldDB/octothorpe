@@ -285,7 +285,7 @@ $(function() {
                         success : function(doc) {
                             db.saveDoc({_id: "actives-" + doc._id,
                             owner: r.userCtx.name,
-                            protect: true
+                            protect: false
                             });
                             document.location.hash = doc._id;
                         }
