@@ -38,7 +38,7 @@ $(function() {
                     var them = $.mustache($("#view").html(), data);
                     $("#content").html(them);
                     // todo: try/catch
-                    $("#content").keydown(resetTimer);
+                    $("#content").bind("input",resetTimer);
                     $("#doc-title").keydown(titleFix);
                 }
                 else if (doc._rev !== data._rev) { // external change to current doc
