@@ -136,6 +136,8 @@ $(function() {
 
             else {
                 console.log("user is owner");
+                document.getElementById("contents").contentEditable = true;
+                document.getElementById("doc-title").contentEditable = true;
                 them = $.mustache($("#protect_owner").html(), data);
                 $("#sidebar").html(them).show();
                 $("#protect").change(submit);
