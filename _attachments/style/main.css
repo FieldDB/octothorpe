@@ -72,3 +72,11 @@ div.avatar img {
 ul {
   list-style: none;
 }
+
+#saved-icon {
+  float: right;
+}
+
+#doc-title {
+  display: inline;
+}

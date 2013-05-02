@@ -39,6 +39,7 @@ $(function() {
                     $("#content").html(them);
                     // todo: try/catch
                     $("#content").keydown(resetTimer);
+                    $("#doc-title").keydown(titleFix);
                 }
                 else if (doc._rev !== data._rev) { // external change to current doc
                     console.log("transforming doc");
@@ -107,11 +108,26 @@ $(function() {
     function resetTimer() {
         window.clearTimeout(timer);
         timer = window.setTimeout(submit, 1000);
+        $("#saved-icon").attr("src","image/edit-unsaved.png");
     };
 
+    function titleFix(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+        }
+        else if (e.which === 8) {
+            if ($(this).html() === "" || $(this).html() === "<br>") {
+                e.preventDefault();
+            }
+        }
+    }
+
     function submit() {
+        var title = $("#doc-title").html().replace(/&lt;br&gt;/g,"").replace(/<br>/g,"");
+        doc.title = (title === "") ? doc.title : title;
         doc.contents = flatten(document.getElementById("contents"));
         db.saveDoc(doc);
+        $("#saved-icon").attr("src","image/check-mark-saved.png");
     };
 
     // after Tim Dowan, with changes: http://stackoverflow.com/questions/298750

@@ -9,8 +9,8 @@
 
     <h1><a href="#">Octothorpe</a></h1>
 
-    <div id="profile">
-    </div>
+    <div id="profile"></div>
+
     <div id="content"></div>
 
     <div id="sidebar">
@@ -44,13 +44,8 @@
   </script>
 
   <script id="view" type="text/x-mustache" charset="utf-8">
-      <div class="avatar">
-        {{#gravatar_url}}<img src="{{gravatar_url}}" alt="{{name}}"/>{{/gravatar_url}}
-        <div class="name">
-          {{nickname}}
-        </div>
-      </div>
-      <h3>{{title}}</h3>
+      <img id="saved-icon"/>
+      <h3 id="doc-title" contentEditable=true spellcheck=false>{{title}}</h3>
       <p id="contents" contentEditable=true style="white-space:pre">{{contents}}</p>
   </script>
 
