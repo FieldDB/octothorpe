@@ -249,6 +249,7 @@ $(function() {
     $.couchProfile.templates.profileReady = $("#new-doc").html();
     $("#account").couchLogin({
         loggedIn : function(r) {
+            doSidebar(doc);
             $("#profile").couchProfile(r, {
                 profileReady : function(profile) {
                     $("#create-doc").couchForm({
