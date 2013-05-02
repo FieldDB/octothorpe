@@ -7,6 +7,7 @@ $(function() {
     var doc = null;
     function drawItems() {
         console.log("going home");
+        $("#profile").show();
         db.view(design + "/recent-items", {
             descending : "true",
             limit : 50,
@@ -29,6 +30,7 @@ $(function() {
         console.log("going to " + id);
         db.openDoc(id, {
             success : function(data) {
+                $("#profile").hide();
                 // don't redraw if we already have this revision
                 // This keeps the changes pushed while editing from knocking us out
                 // of the textarea, since the save updated our revision first.
