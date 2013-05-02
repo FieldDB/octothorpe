@@ -106,17 +106,22 @@ $(function() {
                 doSidebar(data);
             }
         });
-    };
+        	} ;
 
     function doSidebar (data) {
         // calls out to get name each time; wasteful.
         $.couch.session({success : function(resp) {
             var username = resp.userCtx.name;
             var them;
-            if (username !== data.owner) { 
+             if (username !== data.owner) { 
                 console.log("username: " + username + "; owner: " + data.owner);
                 them = $.mustache($("#protect_guest").html(), data);
                 $("#sidebar").html(them);
+                if(username==null){
+                	 document.getElementById("contents").contentEditable = false;
+                     document.getElementById("doc-title").contentEditable = false;
+                }
+                else{
                 if (data.protect) {
                     document.getElementById("contents").contentEditable = false;
                     document.getElementById("doc-title").contentEditable = false;
@@ -125,12 +130,16 @@ $(function() {
                     document.getElementById("contents").contentEditable = true;
                     document.getElementById("doc-title").contentEditable = true;
                 }
+               }
+                
             }
+             
             else {
                 console.log("user is owner");
                 them = $.mustache($("#protect_owner").html(), data);
                 $("#sidebar").html(them);
                 $("#protect").change(submit);
+                
             }
         }});
     }

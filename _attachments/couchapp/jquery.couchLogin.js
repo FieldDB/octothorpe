@@ -27,13 +27,16 @@
                     } else if (userCtx.roles.indexOf("_admin") != -1) {
                         elem.html(templates.adminParty);
                     } else {
-                        elem.html(templates.loggedOut);
+                        
                         if (opts.loggedOut) {opts.loggedOut()}
+                        elem.html(templates.loggedOut);
+                        window.location.href="#";
                     };
                 }
             });
         };
         initWidget();
+
         function doLogin(name, pass) {
             $.couch.login({
             	name:name, 
@@ -53,6 +56,7 @@
         });
         elem.delegate("a[href=#logout]", "click", function() {
             $.couch.logout({success : initWidget});
+            
             return false;
         });
         elem.delegate("form.login", "submit", function() {
