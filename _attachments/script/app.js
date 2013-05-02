@@ -141,6 +141,7 @@ $(function() {
         $.couch.session({success : function(resp) {
             var username = resp.userCtx.name;
             var them;
+            var actives = $("#actives").text();
             if (username !== data.owner) {
                 console.log("username: " + username + "; owner: " + data.owner);
                 them = $.mustache($("#protect_guest").html(), data);
@@ -166,6 +167,7 @@ $(function() {
                 $("#protect").change(submit);
                 
             }
+            $("#actives").text(actives);
         }});
     }
     function undoSidebar()
