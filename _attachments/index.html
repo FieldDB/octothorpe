@@ -42,10 +42,18 @@
 
   <script id="protect_owner" type="text/x-mustache" charset="utf-8">
       <label>Protected? <input id="protect" type="checkbox" {{#protect}}checked{{/protect}}></label>
+      <br>
+      Created: {{created_locale}}
+      <br>
+      Modified: {{modified_locale}}
   </script>
 
   <script id="protect_guest" type="text/x-mustache" charset="utf-8">
       Owner: {{owner}}
+      <br>
+      Created: {{created_locale}}
+      <br>
+      Modified: {{modified_locale}}
   </script>
 
   <script id="view" type="text/x-mustache" charset="utf-8">

@@ -109,6 +109,11 @@ $(function() {
         	} ;
 
     function doSidebar (data) {
+        var create_date = new Date(data.created_at);
+        data.created_locale = create_date.toLocaleString();
+        var modified_date = new Date(data.modified_at);
+        data.modified_locale = modified_date.toLocaleString();
+
         // calls out to get name each time; wasteful.
         $.couch.session({success : function(resp) {
             var username = resp.userCtx.name;
@@ -173,6 +178,7 @@ $(function() {
             doc.protect = protect.checked;
             console.log("protect status " + doc.protect);
         }
+        doc.modified_at = new Date();
         db.saveDoc(doc);
         $("#saved-icon").attr("src","image/check-mark-saved.png");
     };
@@ -249,6 +255,7 @@ $(function() {
                         beforeSave : function(doc) {
                             doc.contents = ["Click here to edit this document"];
                             doc.created_at = new Date();
+                            doc.modified_at = doc.created_at;
                             doc.profile = profile;
                             doc.owner = r.userCtx.name;
                             doc.protect = false;
