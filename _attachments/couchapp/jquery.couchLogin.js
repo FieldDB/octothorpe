@@ -35,7 +35,11 @@
         };
         initWidget();
         function doLogin(name, pass) {
-            $.couch.login({name:name, password:pass, success:initWidget});
+            $.couch.login({
+            	name:name, 
+            	password:pass, 
+            	success:initWidget,
+            	error:function() {alert("The password or account is wrong")}});
         };
         elem.delegate("a[href=#signup]", "click", function() {
             elem.html(templates.signupForm);

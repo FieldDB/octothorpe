@@ -19,6 +19,7 @@ $(function() {
                     items : data.rows.map(function(r) {return r.value;})
                 });
                 $("#content").html(them);
+                undoSidebar();
             }
         });
     };
@@ -133,7 +134,10 @@ $(function() {
             }
         }});
     }
-
+    function undoSidebar()
+    {
+        $("#sidebar").html(null);
+    }
     function resetTimer() {
         window.clearTimeout(timer);
         timer = window.setTimeout(submit, 1000);
