@@ -2,9 +2,10 @@ TODO / IDEAS
 
 include document in changes poll, to save a request?
 
-investigate other events than keydown. These two look interesting:
-    https://developer.mozilla.org/en-US/docs/DOM/Mozilla_Event_Reference/input
-    https://developer.mozilla.org/en-US/docs/DOM/MutationObserver
+transform title edits too
+
+listen on input event as well for title field?
+flatten it somehow, to avoid all the mess when mouse-editing
 
 if save fails, should we pull&transform and try again, or trust that a change request is coming our way?
 no harm in an extra pull
@@ -19,8 +20,9 @@ document is created.  In order to filter on name changes, we'd need to to add
 a flag to the document "nameChanged", which is only true if the last update
 changed the name.
 
-rework profile & document creation stuff
+++ rework profile & document creation stuff
 
+More granular write protection
 Allow sending request for write access, if denied.
 
 URL rewriting
@@ -30,9 +32,6 @@ turn "/octothorpe/_design/octothorpe/index.html" into just "/index.html"
 
 Styling. Make it pretty.
 
-remove sidebar on home, finish reworking for documents
-list owner, creation time, modified time, last modified by?, writeable status
-
 search - how fancy?
 title (exact)
 title words
@@ -40,3 +39,5 @@ full text words
 single word search, or complex queries
 
 submit, cancel ?
+
+View of "My Documents"
