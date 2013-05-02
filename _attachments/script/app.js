@@ -43,6 +43,7 @@ $(function() {
                 }
                 else if (doc._rev !== data._rev) { // external change to current doc
                     console.log("transforming doc");
+                    $("#doc-title").text(data.title); // todo: do merge etc. here too
                     var contents = document.getElementById("contents");
                     var s = window.getSelection();
                     var doSelection = contents.contains(s.anchorNode);
@@ -117,16 +118,18 @@ $(function() {
                 $("#sidebar").html(them);
                 if (data.protect) {
                     document.getElementById("contents").contentEditable = false;
+                    document.getElementById("doc-title").contentEditable = false;
                 }
                 else {
                     document.getElementById("contents").contentEditable = true;
+                    document.getElementById("doc-title").contentEditable = true;
                 }
             }
             else {
                 console.log("user is owner");
                 them = $.mustache($("#protect_owner").html(), data);
                 $("#sidebar").html(them);
-                $("#protect").change(resetTimer);
+                $("#protect").change(submit);
             }
         }});
     }
