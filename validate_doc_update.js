@@ -1,4 +1,7 @@
 function(newDoc, oldDoc, userCtx, secObj) {
+    if (userCtx.name === null) {
+        throw({unauthorized : "You must be logged in to perform that action"});
+    }
     // creating new document
     if (!oldDoc && newDoc.owner !== userCtx.name) {
         throw({forbidden : "Owner field " + newDoc.owner + " must match username " + userCtx.name});
