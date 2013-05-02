@@ -113,6 +113,9 @@ $(function() {
         	} ;
 
     function doSidebar (data) {
+        if (!data) {
+            return;
+        }
         var create_date = new Date(data.created_at);
         data.created_locale = create_date.toLocaleString();
         var modified_date = new Date(data.modified_at);
