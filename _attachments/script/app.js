@@ -100,9 +100,35 @@ $(function() {
                 else {
                     console.log("never mind, we have that version already");
                 }
+                doSidebar(data);
             }
         });
     };
+
+    function doSidebar (data) {
+        // calls out to get name each time; wasteful.
+        $.couch.session({success : function(resp) {
+            var username = resp.userCtx.name;
+            var them;
+            if (username !== data.owner) { 
+                console.log("username: " + username + "; owner: " + data.owner);
+                them = $.mustache($("#protect_guest").html(), data);
+                $("#sidebar").html(them);
+                if (data.protect) {
+                    document.getElementById("contents").contentEditable = false;
+                }
+                else {
+                    document.getElementById("contents").contentEditable = true;
+                }
+            }
+            else {
+                console.log("user is owner");
+                them = $.mustache($("#protect_owner").html(), data);
+                $("#sidebar").html(them);
+                $("#protect").change(resetTimer);
+            }
+        }});
+    }
 
     function resetTimer() {
         window.clearTimeout(timer);
@@ -111,6 +137,11 @@ $(function() {
 
     function submit() {
         doc.contents = flatten(document.getElementById("contents"));
+        var protect = document.getElementById("protect");
+        if (protect) {
+            doc.protect = protect.checked;
+            console.log("protect status " + doc.protect);
+        }
         db.saveDoc(doc);
     };
 
@@ -186,7 +217,9 @@ $(function() {
                         beforeSave : function(doc) {
                             doc.contents = ["Click here to edit this document"];
                             doc.created_at = new Date();
-                            doc.profile = profile;                         
+                            doc.profile = profile;
+                            doc.owner = r.userCtx.name;
+                            doc.protect = false;
                             return doc;
                         },
                         success : function(doc) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My New CouchApp</title>
+    <title>Octothorpe</title>
     <link rel="stylesheet" href="style/main.css" type="text/css">
   </head>
   <body>
@@ -14,9 +14,6 @@
     <div id="content"></div>
 
     <div id="sidebar">
-      <p>Edit welcome message.</p>
-      <p>Ideas: You could easily turn this into a photo sharing app, 
-          or a grocery list, or a chat room.</p>
     </div>
   </body>
   <script src="/_utils/script/json2.js"></script>
@@ -41,6 +38,14 @@
         <label>Title: <input type="text" name="title" size=60 value=""></label>
       </form>
       <div style="clear:left;"></div>
+  </script>
+
+  <script id="protect_owner" type="text/x-mustache" charset="utf-8">
+      <label>Protected? <input id="protect" type="checkbox" {{#protect}}checked{{/protect}}></label>
+  </script>
+
+  <script id="protect_guest" type="text/x-mustache" charset="utf-8">
+      Owner: {{owner}}
   </script>
 
   <script id="view" type="text/x-mustache" charset="utf-8">
