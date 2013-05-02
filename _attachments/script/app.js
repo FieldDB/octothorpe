@@ -6,6 +6,7 @@ $(function() {
         db = $.couch.db(path[1]);
     var doc = null;
     function drawItems() {
+        clearInterval(intervalID);
         console.log("going home");
         $("#profile").show();
         db.view(design + "/recent-items", {
@@ -26,10 +27,14 @@ $(function() {
     };
 
     var timer;
+    var intervalID;
     function viewOne(id) {
+        clearInterval(intervalID);
         console.log("going to " + id);
         db.openDoc(id, {
             success : function(data) {
+                intervalID = setInterval(ping, 5000, id);
+                ping(id);
                 $("#profile").hide();
                 // don't redraw if we already have this revision
                 // This keeps the changes pushed while editing from knocking us out
@@ -112,7 +117,14 @@ $(function() {
                 doSidebar(data);
             }
         });
-        	} ;
+    } ;
+
+    function ping (id) {
+        $.ajax("_update/active/actives-" + id, { type: "PUT", success: function (resp) {
+            $("#actives").text(resp);
+            }
+        });
+    }
 
     function doSidebar (data) {
         if (!data) {
@@ -122,6 +134,8 @@ $(function() {
         data.created_locale = create_date.toLocaleString();
         var modified_date = new Date(data.modified_at);
         data.modified_locale = modified_date.toLocaleString();
+
+        data.gravatar_url = data.profile.gravatar_url;
 
         // calls out to get name each time; wasteful.
         $.couch.session({success : function(resp) {
@@ -269,6 +283,10 @@ $(function() {
                             return doc;
                         },
                         success : function(doc) {
+                            db.saveDoc({_id: "actives-" + doc._id,
+                            owner: r.userCtx.name,
+                            protect: true
+                            });
                             document.location.hash = doc._id;
                         }
                     });
